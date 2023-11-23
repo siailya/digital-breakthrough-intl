@@ -40,8 +40,8 @@ train['labels'] = le.fit_transform(train['labels'])
 test['labels'] = le.transform(test['labels'])
 
 
-model_name = "DeepPavlov/rubert-base-cased-conversational"
-batch_size = 20
+model_name = "ai-forever/sbert_large_nlu_ru"
+batch_size = 10
 
 train_dataset = Dataset.from_pandas(train)
 test_dataset = Dataset.from_pandas(test)
@@ -61,7 +61,7 @@ data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
 training_args = TrainingArguments(
     output_dir="subject_model_on_my_clear_data",
-    learning_rate=2e-5,
+    learning_rate=3e-5,
     per_device_train_batch_size=batch_size,
     per_device_eval_batch_size=batch_size,
     eval_accumulation_steps=1,
@@ -69,10 +69,13 @@ training_args = TrainingArguments(
     weight_decay=0.01,
     evaluation_strategy="epoch",
     save_strategy="epoch",
+    lr_scheduler_type="cosine",  
     load_best_model_at_end=True,
     push_to_hub=False,
     label_names=["labels"],
-    report_to="none"
+    report_to="none",
+    label_smoothing_factor=0.01,
+    fp16=True
 )
 
 trainer = Trainer(
@@ -87,3 +90,4 @@ trainer = Trainer(
 )
 
 trainer.train()
+trainer.evaluate()
