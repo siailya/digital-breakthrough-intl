@@ -3,7 +3,7 @@
     <n-h2 style="font-weight: normal">Классификация обращения</n-h2>
 
     <n-form-item label="Текст обращения">
-      <n-input type="textarea" placeholder="Текст обращения" :loading="isLoading"/>
+      <n-input type="textarea" placeholder="Текст обращения" :loading="isLoading" v-model:value="requestText"/>
     </n-form-item>
 
     <n-button type="primary" block :loading="isLoading" @click="onClickSentToClassify">
@@ -37,6 +37,7 @@ import {reactive, ref} from "vue";
 import axios from "axios";
 
 const isLoading = ref(false);
+const requestText = ref("")
 const classificationResult = reactive({
   isClassified: false,
   themesGroup: "",
@@ -55,7 +56,7 @@ const onClickSentToClassify = () => {
   clearClassificationResult();
   isLoading.value = true;
 
-  axios.get("https://run.mocky.io/v3/4cc59900-0ca5-442a-9438-e53771a84691")
+  axios.post("http://localhost:5000/classify_single", {text: requestText.value})
     .then(res => {
       classificationResult.isClassified = true;
       classificationResult.themesGroup = res.data.themesGroup;

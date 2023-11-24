@@ -104,11 +104,10 @@ const onClickSentToClassify = () => {
   classificationResults.isClassified = false;
   classificationResults.results = [];
 
-  const lines = requestsText.value.split('\n');
+  const lines = requestsText.value.split('\n').map(s => s.trim()).filter(s => s.length > 0);
   for (let i = 0; i < lines.length; i += 15) {
-    console.log(lines)
     const chunk = lines.slice(i, i + 15);
-    axios.post("https://run.mocky.io/v3/007ec94b-c671-4ebd-bd5f-8ef62bffc0ee", {
+    axios.post("http://localhost:5000/classify_package", {
       texts: chunk
     })
         .then(response => {

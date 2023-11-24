@@ -2,11 +2,19 @@ import asyncio
 
 import uvicorn
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
-from backend.dto.SingleClassifyDto import SingleClassifyDto
+from backend.dto.dtos import SingleClassifyDto, PackageClassifyDto
 from backend.inference_model import InferenceModel
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 executor_model = InferenceModel("models/executor")
 subject_model = InferenceModel("models/subject")
@@ -32,10 +40,18 @@ async def classify_single(data: SingleClassifyDto):
     # group_subject = await loop.run_in_executor(None, group_subject_model.predict, [data.text])
 
     return {
+        "originalText": data.text,
         "assignee": executor[0],
         "theme": subject[0],
-        "themeGroups": group_subject[0]
+        "themesGroup": group_subject[0]
     }
+
+
+@app.post("/classify_package")
+async def classify_package(data: PackageClassifyDto):
+    return await asyncio.gather(*[
+        classify_single(SingleClassifyDto(text=text)) for text in data.texts
+    ])
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 import {createRouter, createWebHashHistory} from 'vue-router'
-import SingleClassificationView from '@/views/SingleClassificationView.vue'
+import SingleClassificationView from '@/views/SingleView.vue'
 import PackageView from "@/views/PackageView.vue";
 import ParsingView from "@/views/ParsingView.vue";
 
