@@ -1,10 +1,10 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import {createRouter, createWebHashHistory} from 'vue-router'
 import SingleClassificationView from '@/views/SingleClassificationView.vue'
 import PackageView from "@/views/PackageView.vue";
 import ParsingView from "@/views/ParsingView.vue";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',

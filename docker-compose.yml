@@ -1,0 +1,8 @@
+version: '3.9'
+
+services:
+  frontend:
+    image: siailyadev/digital-break-frontend:0.0.1
+    container_name: digital-break-frontend
+    ports:
+      - "3000:80"
