@@ -74,11 +74,13 @@ import {
 } from "naive-ui"
 import {reactive, ref} from "vue";
 import axios from "axios";
+import {useRootStore} from "@/stores/root";
 
 const isLoading = ref(false);
 const uploader = ref<any>(null);
 const selectedFiles = ref<UploadFileInfo[]>([]);
 const requestsText = ref('');
+const rootStore = useRootStore()
 
 const classificationResults = reactive<{
   isClassified: boolean, results: {
@@ -107,7 +109,7 @@ const onClickSentToClassify = () => {
   const lines = requestsText.value.split('\n').map(s => s.trim()).filter(s => s.length > 0);
   for (let i = 0; i < lines.length; i += 15) {
     const chunk = lines.slice(i, i + 15);
-    axios.post("http://localhost:5000/classify_package", {
+    axios.post(`${rootStore.apiUrl}/classify_package`, {
       texts: chunk
     })
         .then(response => {

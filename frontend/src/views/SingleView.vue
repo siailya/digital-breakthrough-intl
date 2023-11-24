@@ -35,6 +35,7 @@
 import {NFormItem, NH2, NH3, NInput, NButton, NSpace, NSpin} from "naive-ui"
 import {reactive, ref} from "vue";
 import axios from "axios";
+import {useRootStore} from "@/stores/root";
 
 const isLoading = ref(false);
 const requestText = ref("")
@@ -44,6 +45,7 @@ const classificationResult = reactive({
   theme: "",
   assignee: "",
 })
+const rootStore = useRootStore()
 
 const clearClassificationResult = () => {
   classificationResult.isClassified = false;
@@ -56,7 +58,7 @@ const onClickSentToClassify = () => {
   clearClassificationResult();
   isLoading.value = true;
 
-  axios.post("http://localhost:5000/classify_single", {text: requestText.value})
+  axios.post(`${rootStore.apiUrl}/classify_single`, {text: requestText.value})
     .then(res => {
       classificationResult.isClassified = true;
       classificationResult.themesGroup = res.data.themesGroup;
