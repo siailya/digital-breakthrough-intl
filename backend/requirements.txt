@@ -4,3 +4,4 @@ pandas
 transformers
 fastapi
 uvicorn
+natasha

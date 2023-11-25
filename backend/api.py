@@ -6,7 +6,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from backend.dto.dtos import SingleClassifyDto, PackageClassifyDto
 from backend.inference_model import InferenceModel
-from helpers.address_extractor import AddressExtractor
+from backend.address_extractor import AddressExtractor
 
 app = FastAPI()
 app.add_middleware(

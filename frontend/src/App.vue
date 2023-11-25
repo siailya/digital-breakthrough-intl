@@ -11,18 +11,17 @@
           <n-layout-header bordered style="padding: 10px 20px">
             <div style="display:flex;">
               <div class="logo-wrapper">
-                <img src="@/assets/images/publicpulse_logo.svg" width="300" alt="">
+                <img src="@/assets/images/publicpulse_logo.svg" width="300" class="logo-md" alt="">
+                <img src="@/assets/images/publicpulse_icon.svg" width="70" class="logo-sm" alt="">
               </div>
 
               <n-space style="margin: auto 0 auto 24px;">
-                <n-button text @click="$router.push('/classification')" :class="$route.path === '/classification' && 'active'">
+                <n-button text @click="$router.push('/classification')"
+                          :class="$route.path === '/classification' && 'active'">
                   Классификация комментариев
                 </n-button>
                 <n-button text @click="$router.push('/package')" :class="$route.path === '/package' && 'active'">
                   Пакетная обработка
-                </n-button>
-                <n-button text @click="$router.push('/parsing')" :class="$route.path === '/parsing' && 'active'">
-                  Парсинг и классификация комментариев
                 </n-button>
               </n-space>
 
@@ -111,5 +110,21 @@ body {
 .container-md {
   max-width: 768px;
   margin: 0 auto;
+}
+
+.logo-wrapper img {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .logo-wrapper .logo-sm {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .logo-wrapper .logo-md {
+    display: block;
+  }
 }
 </style>
