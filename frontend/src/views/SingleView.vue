@@ -6,7 +6,7 @@
       <n-input type="textarea" placeholder="Текст обращения" :loading="isLoading" v-model:value="requestText"/>
     </n-form-item>
 
-    <n-button type="primary" block :loading="isLoading" @click="onClickSentToClassify">
+    <n-button type="primary" block :loading="isLoading" @click="onClickSentToClassify" :disabled="!requestText">
       Классифицировать обращение
     </n-button>
 
@@ -27,6 +27,10 @@
         <span style="font-weight: 500">Исполнитель:</span>
         {{classificationResult.assignee}}
       </n-h3>
+      <n-h3 style="font-weight: normal; margin-bottom: 6px;">
+        <span style="font-weight: 500">Адрес:</span>
+        {{ classificationResult.address}}
+      </n-h3>
     </n-space>
   </main>
 </template>
@@ -44,6 +48,7 @@ const classificationResult = reactive({
   themesGroup: "",
   theme: "",
   assignee: "",
+  address: ""
 })
 const rootStore = useRootStore()
 
@@ -52,6 +57,7 @@ const clearClassificationResult = () => {
   classificationResult.themesGroup = "";
   classificationResult.theme = "";
   classificationResult.assignee = "";
+  classificationResult.address = "";
 }
 
 const onClickSentToClassify = () => {
@@ -64,6 +70,7 @@ const onClickSentToClassify = () => {
       classificationResult.themesGroup = res.data.themesGroup;
       classificationResult.theme = res.data.theme;
       classificationResult.assignee = res.data.assignee;
+      classificationResult.address = res.data.address;
     })
    .catch(err => {
       console.log(err);

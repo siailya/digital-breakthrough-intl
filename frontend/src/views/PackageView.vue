@@ -18,7 +18,7 @@
 
     <n-divider/>
 
-    <n-button type="primary" block :loading="isLoading" @click="onClickSentToClassify">
+    <n-button type="primary" block :loading="isLoading" @click="onClickSentToClassify" :disabled="!requestsText">
       Классифицировать обращения
     </n-button>
 
@@ -50,6 +50,10 @@
           <n-h3 style="font-weight: normal; margin-bottom: 6px;">
             <span style="font-weight: 500">Исполнитель:</span>
             {{ classificationItem.assignee }}
+          </n-h3>
+          <n-h3 style="font-weight: normal; margin-bottom: 6px;" v-if="classificationItem.address">
+            <span style="font-weight: 500">Адрес:</span>
+            {{ classificationItem.address }}
           </n-h3>
         </n-space>
       </n-collapse-item>
@@ -88,6 +92,7 @@ const classificationResults = reactive<{
     theme: string,
     themesGroup: string,
     assignee: string,
+    address: string
   }[]
 }>({
   isClassified: false,
@@ -107,8 +112,8 @@ const onClickSentToClassify = () => {
   classificationResults.results = [];
 
   const lines = requestsText.value.split('\n').map(s => s.trim()).filter(s => s.length > 0);
-  for (let i = 0; i < lines.length; i += 15) {
-    const chunk = lines.slice(i, i + 15);
+  for (let i = 0; i < lines.length; i += 5) {
+    const chunk = lines.slice(i, i + 5);
     axios.post(`${rootStore.apiUrl}/classify_package`, {
       texts: chunk
     })
